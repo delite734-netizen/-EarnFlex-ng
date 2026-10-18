@@ -4,227 +4,363 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1220">
 <title>EarnFlex NG</title>
 <style>
 :root {
-  --green: #087f5b;
-  --light: #e8f7ef;
-  --dark: #17352b;
+  --bg:#0b1220;
+  --panel:#131e30;
+  --panel2:#19273b;
+  --green:#36d399;
+  --green-dark:#087f5b;
+  --white:#f4f8fc;
+  --muted:#96a6ba;
+  --border:#26364b;
 }
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f7f5;
-  color: #17251e;
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--white);
+  font-family:Arial,sans-serif;min-height:100vh
 }
-header {
-  background: var(--green);
-  color: white;
-  padding: 22px 18px;
+button,input{font:inherit}
+button{cursor:pointer}
+header{
+  padding:20px 18px;background:#101a2a;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:10px
 }
-header h1 { margin: 0 0 7px; }
-header p { margin: 0; }
-main {
-  max-width: 650px;
-  margin: auto;
-  padding: 16px;
+.brand{display:flex;align-items:center;gap:10px}
+.logo{
+  width:42px;height:42px;display:grid;place-items:center;
+  border-radius:13px;background:var(--green);color:#07150f;
+  font-size:22px;font-weight:bold
 }
-.wallet {
-  background: white;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 3px 14px #0000000c;
+.brand h1{font-size:20px;margin:0}
+.brand p{font-size:12px;color:var(--muted);margin:4px 0 0}
+.pill{
+  font-size:11px;border:1px solid #28674f;color:var(--green);
+  padding:6px 9px;border-radius:20px;white-space:nowrap
 }
-.wallet small { color: #627268; }
-.balance {
-  font-size: 30px;
-  font-weight: bold;
-  margin: 8px 0;
+main{max-width:700px;margin:auto;padding:18px 15px 90px}
+h2{font-size:20px;margin:24px 0 14px}
+h3{font-size:16px;margin:0 0 9px}
+p{line-height:1.5}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.hero{
+  padding:23px;border-radius:22px;
+  background:linear-gradient(135deg,#174f43,#102b36 65%,#142238);
+  border:1px solid #23614f
 }
-.note { color: #63736a; font-size: 13px; }
-.actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 15px;
+.hero .eyebrow{
+  color:var(--green);font-size:12px;
+  text-transform:uppercase;letter-spacing:1px
 }
-button, select, input, textarea {
-  font: inherit;
+.hero h2{font-size:27px;line-height:1.2;margin:12px 0}
+.hero p{font-size:14px;color:#d0e2dc;margin-bottom:20px}
+.btn{
+  border:0;background:var(--green);color:#07150f;
+  padding:12px 15px;border-radius:11px;font-weight:bold
 }
-button {
-  border: 0;
-  border-radius: 10px;
-  padding: 12px;
-  background: var(--green);
-  color: white;
-  cursor: pointer;
+.btn.secondary{
+  background:var(--panel2);color:var(--white);
+  border:1px solid var(--border)
 }
-button.secondary {
-  background: var(--light);
-  color: var(--green);
+.btn.full{width:100%}
+.wallet{
+  background:var(--panel);border:1px solid var(--border);
+  padding:20px;border-radius:18px;margin-top:16px
 }
-h2 { margin: 24px 0 12px; }
-.filters {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
+.wallet-top{display:flex;justify-content:space-between;gap:12px}
+.wallet-label{font-size:13px;color:var(--muted)}
+.balance{font-size:30px;font-weight:bold;margin:10px 0}
+.demo{
+  display:inline-block;font-size:11px;color:var(--green);
+  background:#12372e;padding:6px 9px;border-radius:7px
 }
-.filters button { flex: 1; min-width: 95px; }
-.filters button.active { background: #17352b; }
-.job {
-  background: white;
-  padding: 16px;
-  margin-bottom: 12px;
-  border-radius: 14px;
-  border: 1px solid #e5ebe7;
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.stat{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:15px;padding:15px
 }
-.job h3 { margin: 0 0 8px; }
-.tag {
-  display: inline-block;
-  background: var(--light);
-  color: var(--green);
-  padding: 5px 8px;
-  border-radius: 20px;
-  font-size: 12px;
+.stat .symbol{font-size:21px}
+.stat strong{display:block;font-size:20px;margin:10px 0 5px}
+.stat span{font-size:12px;color:var(--muted)}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:5px}
+.filters button{
+  white-space:nowrap;padding:10px 14px;border-radius:20px;
+  border:1px solid var(--border);background:var(--panel);color:var(--muted)
 }
-.job p { color: #58685f; font-size: 14px; line-height: 1.5; }
-.job-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+.filters button.active{
+  background:var(--green);color:#07150f;border-color:var(--green);font-weight:bold
 }
-.job-bottom strong { color: var(--green); }
-footer {
-  text-align: center;
-  padding: 24px;
-  color: #68766e;
-  font-size: 12px;
+.job{
+  background:var(--panel);border:1px solid var(--border);
+  padding:17px;border-radius:16px;margin-top:12px
 }
-#message {
-  display: none;
-  padding: 12px;
-  margin-top: 12px;
-  border-radius: 10px;
-  background: var(--light);
-  color: var(--dark);
+.job-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.job-icon{
+  width:43px;height:43px;display:grid;place-items:center;
+  background:var(--panel2);border-radius:12px;font-size:21px
+}
+.tag{font-size:11px;color:var(--green);margin-top:5px;display:block}
+.job p{font-size:13px;color:var(--muted)}
+.job-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.reward{font-size:15px;font-weight:bold;color:var(--green)}
+.notice{
+  background:#152235;border:1px solid var(--border);
+  padding:14px;border-radius:12px;color:var(--muted);
+  font-size:12px;line-height:1.6;margin-top:18px
+}
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:#101a2a;border-top:1px solid var(--border);
+  display:flex;justify-content:space-around;padding:11px 5px;
+  padding-bottom:max(11px,env(safe-area-inset-bottom))
+}
+.bottom-nav button{
+  background:transparent;border:0;color:var(--muted);
+  font-size:11px;padding:5px
+}
+.bottom-nav button span{display:block;font-size:20px;margin-bottom:4px}
+.bottom-nav button.active{color:var(--green)}
+#auth{max-width:460px;margin:25px auto}
+.card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:18px;padding:21px
+}
+input{
+  width:100%;padding:13px;margin:8px 0 15px;
+  background:#0d1727;color:white;border:1px solid var(--border);
+  border-radius:10px
+}
+label{font-size:13px;color:#d6e2ee}
+.tabs{display:flex;gap:8px;margin:15px 0}
+.tabs button{flex:1}
+#message{
+  display:none;background:#12372e;color:#b8f5da;
+  padding:12px;border-radius:10px;margin-top:12px;font-size:13px
+}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:22px}
+.hidden{display:none!important}
+@media(min-width:600px){
+  main{padding-top:25px}
+  .hero{padding:30px}
 }
 </style>
 </head>
 <body>
+
 <header>
-  <h1>🌿 EarnFlex NG</h1>
-  <p>Find opportunities. Build skills. Earn with purpose.</p>
+  <div class="brand">
+    <div class="logo">E</div>
+    <div>
+      <h1>EarnFlex <span style="color:#36d399">NG</span></h1>
+      <p>Skills. Tasks. Opportunities.</p>
+    </div>
+  </div>
+  <span class="pill">BETA DEMO</span>
 </header>
 
 <main>
-  <section class="wallet">
-    <small>My demo wallet</small>
-    <div class="balance">₦0.00</div>
-    <span class="tag">Demo account</span>
-    <p class="note">This is a prototype. No real money is stored or paid.</p>
-    <div class="actions">
-      <button onclick="showMessage('Withdrawal will be added after secure payments are set up.')">Withdraw</button>
-      <button class="secondary" onclick="showMessage('Your demo balance is ₦0. Real earnings require approved, funded jobs.')">My earnings</button>
-    </div>
-  </section>
+<section id="auth" class="card">
+  <div class="logo">E</div>
+  <h2 id="formTitle">Join EarnFlex NG</h2>
+  <p class="muted small">Explore tasks and freelance opportunities.</p>
 
-  <h2>Explore opportunities</h2>
-  <div class="filters">
-    <button class="active" onclick="filterJobs('all', this)">All jobs</button>
-    <button class="secondary" onclick="filterJobs('task', this)">Small tasks</button>
-    <button class="secondary" onclick="filterJobs('freelance', this)">Freelance</button>
+  <div class="tabs">
+    <button class="btn" onclick="showForm('register')">Register</button>
+    <button class="btn secondary" onclick="showForm('login')">Login</button>
   </div>
 
-  <div id="jobs"></div>
+  <form id="authForm">
+    <div id="nameField">
+      <label for="fullName">Your name</label>
+      <input id="fullName" autocomplete="name" placeholder="Enter your name" required>
+    </div>
+    <label for="email">Email address</label>
+    <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="off"
+      placeholder="Demo only — don't use a real password" required>
+    <button class="btn full" id="submitBtn" type="submit">Preview registration</button>
+  </form>
+  <p class="muted small">Demo only. No account is created and no password is saved. Use fictional details.</p>
   <div id="message" role="status"></div>
+</section>
 
-  <h2>How EarnFlex works</h2>
-  <section class="job">
-    <p>1. Find a genuine opportunity.</p>
-    <p>2. Read the requirements before starting.</p>
-    <p>3. Submit your work for review.</p>
-    <p>4. Receive payment only when the job is approved and funded.</p>
-  </section>
+<section id="dashboard" class="hidden">
+  <div class="hero">
+    <span class="eyebrow">Your next opportunity</span>
+    <h2>Make your skills<br>work for you.</h2>
+    <p>Discover practice tasks and freelance opportunities in one place.</p>
+    <button class="btn" onclick="goToJobs()">Explore opportunities ↗</button>
+  </div>
+
+  <div class="wallet">
+    <div class="wallet-top">
+      <div>
+        <div class="wallet-label">Demo wallet balance</div>
+        <div class="balance">₦0.00</div>
+        <span class="demo">DEMO BALANCE</span>
+      </div>
+      <div style="font-size:30px">◈</div>
+    </div>
+    <p class="muted small">No real funds are held in this prototype.</p>
+    <button class="btn secondary" onclick="showMessage('Withdrawals will be available only after secure payments and funded jobs are set up.')">Withdrawal info</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="symbol">▦</div>
+      <strong>04</strong>
+      <span>Sample opportunities</span>
+    </div>
+    <div class="stat">
+      <div class="symbol">✓</div>
+      <strong>0</strong>
+      <span>Approved submissions</span>
+    </div>
+  </div>
+
+  <div id="opportunities">
+    <div class="section-head">
+      <h2>Explore jobs</h2>
+      <span class="muted small">Practice listings</span>
+    </div>
+    <div class="filters">
+      <button class="active" onclick="filterJobs('all',this)">All</button>
+      <button onclick="filterJobs('task',this)">Small tasks</button>
+      <button onclick="filterJobs('freelance',this)">Freelance</button>
+    </div>
+    <div id="jobs"></div>
+  </div>
+
+  <div class="notice">
+    <strong style="color:#36d399">Stay safe</strong><br>
+    These are sample listings, not real paid jobs. Never pay a fee to unlock a job, and never share your password or banking PIN.
+  </div>
+  <button class="btn secondary full" style="margin-top:15px" onclick="logout()">Log out of demo</button>
+</section>
 </main>
 
-<footer>
-  EarnFlex NG · Early demo · Stay safe online
-</footer>
+<nav id="nav" class="bottom-nav hidden">
+  <button class="active" onclick="goHome(this)"><span>⌂</span>Home</button>
+  <button onclick="goToJobs(this)"><span>▦</span>Jobs</button>
+  <button onclick="showMessage('Your demo wallet is ₦0. No real payments are connected yet.')"><span>◈</span>Wallet</button>
+  <button onclick="logout()"><span>☻</span>Account</button>
+</nav>
+
+<footer>EarnFlex NG · Early prototype · Built for mobile</footer>
 
 <script>
+let currentForm = "register";
+
 const jobs = [
   {
-    title: "Sample product description",
-    type: "task",
-    reward: "₦500 example",
-    description: "Practice writing a short, clear description for a sample product.",
-    details: "This is a practice task only. No payment is offered."
+    title:"Product description practice",
+    type:"task",icon:"✍️",reward:"₦500 example",
+    description:"Practise writing a clear description for a fictional product."
   },
   {
-    title: "Sample flyer design",
-    type: "freelance",
-    reward: "₦2,000 example",
-    description: "Create a sample promotional flyer for an imaginary business.",
-    details: "Practice portfolio job only. No customer has funded this job."
+    title:"Promotional flyer practice",
+    type:"freelance",icon:"🎨",reward:"₦2,000 example",
+    description:"Create a sample promotional flyer for an imaginary business."
   },
   {
-    title: "Sample data organisation",
-    type: "task",
-    reward: "₦800 example",
-    description: "Practise organising a short list of sample items into categories.",
-    details: "This is a practice task only. No payment is offered."
+    title:"Organise sample data",
+    type:"task",icon:"📋",reward:"₦800 example",
+    description:"Practise organising a short sample list into categories."
   },
   {
-    title: "Sample social media design",
-    type: "freelance",
-    reward: "₦3,000 example",
-    description: "Plan a social media post for a fictional shop.",
-    details: "Practice portfolio job only. No customer has funded this job."
+    title:"Social media design practice",
+    type:"freelance",icon:"💻",reward:"₦3,000 example",
+    description:"Design a sample social media post for a fictional shop."
   }
 ];
 
-function renderJobs(filter = "all") {
-  const list = document.getElementById("jobs");
-  const visible = jobs.filter(job => filter === "all" || job.type === filter);
+function showForm(mode){
+  currentForm=mode;
+  document.getElementById("formTitle").textContent =
+    mode==="register" ? "Join EarnFlex NG" : "Welcome back";
+  document.getElementById("nameField").classList.toggle("hidden",mode!=="register");
+  document.getElementById("fullName").required=mode==="register";
+  document.getElementById("submitBtn").textContent =
+    mode==="register" ? "Preview registration" : "Preview login";
+  document.getElementById("message").style.display="none";
+}
 
-  list.innerHTML = visible.map((job, index) => `
+document.getElementById("authForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  const name=document.getElementById("fullName").value.trim();
+  const email=document.getElementById("email").value.trim();
+
+  // Demo only: deliberately do not save or transmit passwords.
+  document.getElementById("password").value="";
+  document.getElementById("auth").classList.add("hidden");
+  document.getElementById("dashboard").classList.remove("hidden");
+  document.getElementById("nav").classList.remove("hidden");
+  document.getElementById("welcomeName");
+  renderJobs("all");
+});
+
+function renderJobs(filter){
+  const list=document.getElementById("jobs");
+  const visible=jobs.filter(job=>filter==="all"||job.type===filter);
+  list.innerHTML=visible.map(job=>`
     <article class="job">
-      <span class="tag">${job.type === "task" ? "Small task" : "Freelance practice"}</span>
-      <h3>${job.title}</h3>
+      <div class="job-top">
+        <div style="display:flex;gap:12px">
+          <div class="job-icon">${job.icon}</div>
+          <div>
+            <h3>${job.title}</h3>
+            <span class="tag">${job.type==="task"?"SMALL TASK":"FREELANCE PRACTICE"}</span>
+          </div>
+        </div>
+      </div>
       <p>${job.description}</p>
       <div class="job-bottom">
-        <strong>${job.reward}</strong>
-        <button onclick="jobInfo(${jobs.indexOf(job)})">View details</button>
+        <span class="reward">${job.reward}</span>
+        <button class="btn secondary" onclick="jobInfo('${job.title.replace(/'/g,"")}')">Details ↗</button>
       </div>
-    </article>
-  `).join("");
+    </article>`).join("");
 }
 
-function filterJobs(type, button) {
+function filterJobs(type,button){
   renderJobs(type);
-  document.querySelectorAll(".filters button").forEach(btn => {
-    btn.classList.remove("active");
-    btn.classList.add("secondary");
-  });
+  document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
   button.classList.add("active");
-  button.classList.remove("secondary");
 }
-
-function jobInfo(index) {
-  showMessage(jobs[index].details);
+function jobInfo(title){
+  showMessage(title+": practice listing only. This is not a real paid job.");
 }
-
-function showMessage(text) {
-  const message = document.getElementById("message");
-  message.textContent = text;
-  message.style.display = "block";
-  message.scrollIntoView({ behavior: "smooth", block: "nearest" });
+function showMessage(text){
+  const m=document.getElementById("message");
+  m.textContent=text;
+  m.style.display="block";
+  m.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
-
-renderJobs();
+function goToJobs(button){
+  document.getElementById("opportunities").scrollIntoView({behavior:"smooth"});
+  if(button && button.tagName==="BUTTON"){
+    document.querySelectorAll(".bottom-nav button").forEach(b=>b.classList.remove("active"));
+    button.classList.add("active");
+  }
+}
+function goHome(button){
+  document.querySelectorAll(".bottom-nav button").forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function logout(){
+  document.getElementById("dashboard").classList.add("hidden");
+  document.getElementById("nav").classList.add("hidden");
+  document.getElementById("auth").classList.remove("hidden");
+  document.getElementById("authForm").reset();
+  showForm("login");
+}
+renderJobs("all");
 </script>
 </body>
 </html>
