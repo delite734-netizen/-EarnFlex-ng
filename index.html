@@ -1,3 +1,247 @@
+</head><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "PASTE_YOUR_PROJECT_URL_HERE";https://avedaeoxwtfhfbwylpun.supabase.co/rest/v1/
+const SUPABASE_PUBLISHABLE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY_HERE";sb_publishable_pst3lvOpzJFEZuJIJtvHmg_LFwvn6Ln
+
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+let currentForm = "register";
+
+const jobs = [
+  {
+    title: "Product description practice",
+    type: "task",
+    icon: "✍️",
+    reward: "₦500 example",
+    description: "Practise writing a clear description for a fictional product."
+  },
+  {
+    title: "Promotional flyer practice",
+    type: "freelance",
+    icon: "🎨",
+    reward: "₦2,000 example",
+    description: "Create a sample promotional flyer for an imaginary business."
+  },
+  {
+    title: "Organise sample data",
+    type: "task",
+    icon: "📋",
+    reward: "₦800 example",
+    description: "Practise organising a short sample list into categories."
+  },
+  {
+    title: "Social media design practice",
+    type: "freelance",
+    icon: "💻",
+    reward: "₦3,000 example",
+    description: "Design a sample social media post for a fictional shop."
+  }
+];
+
+function showForm(mode) {
+  currentForm = mode;
+
+  document.getElementById("formTitle").textContent =
+    mode === "register" ? "Join EarnFlex NG" : "Welcome back";
+
+  document.getElementById("nameField").classList.toggle(
+    "hidden", mode !== "register"
+  );
+
+  document.getElementById("fullName").required =
+    mode === "register";
+
+  document.getElementById("submitBtn").textContent =
+    mode === "register" ? "Create account" : "Login";
+
+  document.getElementById("message").style.display = "none";
+}
+
+function showMessage(text) {
+  const message = document.getElementById("message");
+
+  if (document.getElementById("auth").classList.contains("hidden")) {
+    alert(text);
+    return;
+  }
+
+  message.textContent = text;
+  message.style.display = "block";
+}
+
+function showDashboard() {
+  document.getElementById("auth").classList.add("hidden");
+  document.getElementById("dashboard").classList.remove("hidden");
+  document.getElementById("nav").classList.remove("hidden");
+  renderJobs("all");
+}
+
+function showAuth() {
+  document.getElementById("dashboard").classList.add("hidden");
+  document.getElementById("nav").classList.add("hidden");
+  document.getElementById("auth").classList.remove("hidden");
+}
+
+document.getElementById("authForm").addEventListener(
+  "submit",
+  async function (event) {
+    event.preventDefault();
+
+    const button = document.getElementById("submitBtn");
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const name = document.getElementById("fullName").value.trim();
+
+    if (password.length < 6) {
+      showMessage("Your password must contain at least 6 characters.");
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Please wait...";
+
+    try {
+      if (currentForm === "register") {
+        if (!name) {
+          showMessage("Please enter your name.");
+          return;
+        }
+
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: name }
+          }
+        });
+
+        if (error) throw error;
+
+        if (data.session) {
+          showDashboard();
+        } else {
+          showMessage(
+            "Account created! Check your email for a verification link, then log in."
+          );
+          showForm("login");
+          showMessage("Check your email to verify your account, then log in.");
+        }
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        const { data } = await supabase.auth.getSession();
+
+        if (data.session) {
+          showDashboard();
+        }
+      }
+    } catch (error) {
+      showMessage(error.message || "Authentication failed. Please try again.");
+    } finally {
+      button.disabled = false;
+      button.textContent =
+        currentForm === "register" ? "Create account" : "Login";
+      document.getElementById("password").value = "";
+    }
+  }
+);
+
+supabase.auth.onAuthStateChange((event, session) => {
+  if (session) {
+    showDashboard();
+  } else {
+    showAuth();
+  }
+});
+
+function renderJobs(filter) {
+  const list = document.getElementById("jobs");
+
+  const visible = jobs.filter(
+    job => filter === "all" || job.type === filter
+  );
+
+  list.innerHTML = visible.map(job => `
+    <article class="job">
+      <div class="job-top">
+        <div style="display:flex;gap:12px">
+          <div class="job-icon">${job.icon}</div>
+          <div>
+            <h3>${job.title}</h3>
+            <span class="tag">${
+              job.type === "task" ? "SMALL TASK" : "FREELANCE PRACTICE"
+            }</span>
+          </div>
+        </div>
+      </div>
+      <p>${job.description}</p>
+      <div class="job-bottom">
+        <span class="reward">${job.reward}</span>
+        <button class="btn secondary"
+          onclick="jobInfo('${job.title}')">Details ↗</button>
+      </div>
+    </article>
+  `).join("");
+}
+
+function filterJobs(type, button) {
+  renderJobs(type);
+  document.querySelectorAll(".filters button").forEach(
+    item => item.classList.remove("active")
+  );
+  button.classList.add("active");
+}
+
+function jobInfo(title) {
+  showMessage(
+    title + ": practice listing only. This is not a real paid job."
+  );
+}
+
+function goToJobs(button) {
+  document.getElementById("opportunities").scrollIntoView({
+    behavior: "smooth"
+  });
+
+  if (button && button.tagName === "BUTTON") {
+    document.querySelectorAll(".bottom-nav button").forEach(
+      item => item.classList.remove("active")
+    );
+    button.classList.add("active");
+  }
+}
+
+function goHome(button) {
+  document.querySelectorAll(".bottom-nav button").forEach(
+    item => item.classList.remove("active")
+  );
+  button.classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function logout() {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    alert("Logout failed. Please try again.");
+    return;
+  }
+
+  document.getElementById("authForm").reset();
+  showForm("login");
+  showAuth();
+}
+
+renderJobs("all");
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
