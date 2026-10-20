@@ -605,6 +605,24 @@ function logout(){
 }
 renderJobs("all");
 </script>
+  <!-- EarnFlex NG Wallet -->
+<section id="wallet">
+  <h2>My Wallet</h2>
+
+  <p>Available Balance</p>
+  <h3 id="wallet-balance">₦0.00</h3>
+
+  <p>Total Earnings</p>
+  <h3 id="total-earnings">₦0.00</h3>
+
+  <button id="refresh-wallet">Refresh Wallet</button>
+  <p id="wallet-message">Loading wallet...</p>
+
+  <h3>Recent Transactions</h3>
+  <ul id="transaction-list"></ul>
+</section>
+
+<script src="wallet.js"></script>
 </body>
   </html>
   
